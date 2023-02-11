@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="dt mw6 center pt0 pb5 pv5-m pv6-ns">
+    <div class="db dtc-ns v-mid-ns">
+      <img src="{{ product.picture.url }}" alt="{{ product.name }}" class="br4 w-100 mw7 w5-ns" />
+    </div>
+    <div class="db dtc-ns v-mid ph2 pr0-ns pl3-ns">
+      <p class="lh-copy">
+        {{ product.info }}
+      </p>
+      <p class="b f3 lh-copy">
+        ${{product.price}}
+      </p>
+      
+      
+      {% comment %} <article class="fr pa4 black-80">
+        {% csrf_token %}
+        <form action="" method="post" accept-charset="utf-8">
+          {{ addr }}
+          <div class="mt3"><input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" type="submit" value="Confirm Address"></div>
+        </form>
+      </article> {% endcomment %}
+      
+      {{ form.render }}
+    </div>
+  </div>
+  
+
+{% endblock content %}

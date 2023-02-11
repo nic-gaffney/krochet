@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'krochet.apps.KrochetConfig',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -111,6 +113,9 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+PAYPAL_RECEIVER_EMAIL = 'sb-v52uo25037825@business.example.com'
+PAYPAL_TEST = True
 
 
 # Static files (CSS, JavaScript, Images)
