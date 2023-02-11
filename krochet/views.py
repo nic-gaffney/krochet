@@ -24,6 +24,7 @@ def shop(request, product_id=0):
         obj = Crochet.objects.get(pk=product_id)
         order = Order()
         order.obj = obj
+        order.getInvoice()
         order.save()
         # addr = AddressForm()
 
@@ -37,11 +38,13 @@ def shop(request, product_id=0):
             "business": settings.PAYPAL_RECEIVER_EMAIL,
             "amount": obj.price,
             "item_name": obj.name,
-            "invoice": f"{product_id}-{order.date}",
+            "invoice": f"{product_id}::{order.date}",
             "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
             "return": request.build_absolute_uri(reverse('index')),
             "cancel_return": request.build_absolute_uri(reverse('shop')),
         }
+        print(f"order.date = {order.date}")
+        print("invoice = {0}".format(paypal_dict['invoice']))
 
         # Create the instance.
         form = CustomPayPalPaymentsForm(initial=paypal_dict)

@@ -18,8 +18,15 @@ class Order(models.Model):
         "krochet.Crochet", verbose_name=("Crochet Requested"), on_delete=models.CASCADE)
     # address = models.ForeignKey(
     #     "krochet.Address", verbose_name=("Order Address"), on_delete=models.CASCADE)
-    date = models.DateField(auto_now=True, editable=False)
+    date = models.DateTimeField(auto_now=True, editable=False)
     paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.obj.id}::{self.date}\t{self.paid}"
+
+    def getInvoice(self):
+        self.invoice = f"{self.obj.id}::{self.date}"
+        return self.invoice
 
 
 # class Address(models.Model):

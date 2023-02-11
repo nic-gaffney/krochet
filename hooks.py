@@ -1,5 +1,7 @@
 from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import valid_ipn_received
+from krochet.models import Crochet, Order
+import logger
 
 
 def paypal_payment_received(sender, **kwargs):
@@ -17,17 +19,25 @@ def paypal_payment_received(sender, **kwargs):
         # received, `custom` etc. are all what you expect or what
         # is allowed.
         try:
-            my_pk = ipn_obj.invoice
+            my_pk = ipn_obj.invoice[0]
+            print(f"IPN_OBJ.INVOICE = {ipn_obj.invoice}")
             mytransaction = Crochet.objects.get(pk=my_pk)
+            print(
+                f"{ipn_obj.mc_gross} == {mytransaction.price} and {ipn_obj.mc_currency} == 'USD'")
             assert ipn_obj.mc_gross == mytransaction.price and ipn_obj.mc_currency == 'USD'
         except Exception:
-            logger.exception('Paypal ipn_obj data not valid!')
+            print(f'Paypal ipn_obj data not valid! {Exception}')
         else:
-            mytransaction.paid = True
-            mytransaction.save()
+            orders = Order.objects.all()
+            for o in orders:
+                if o.getInvoice() == ipn_obj.invoice:
+                    o.paid = True
+                    o.save()
+                    print(o)
     else:
-        logger.debug('Paypal payment status not completed: %s' %
-                     ipn_obj.payment_status)
+        print('Paypal payment status not completed: %s' %
+              ipn_obj.payment_status)
 
 
 valid_ipn_received.connect(paypal_payment_received)
+print("READY")
