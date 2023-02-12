@@ -16,22 +16,25 @@ class Crochet(models.Model):
 class Order(models.Model):
     obj = models.ForeignKey(
         "krochet.Crochet", verbose_name=("Crochet Requested"), on_delete=models.CASCADE)
-    # address = models.ForeignKey(
-    #     "krochet.Address", verbose_name=("Order Address"), on_delete=models.CASCADE)
+    address = models.ForeignKey(
+        "krochet.Address", verbose_name=("Order Address"), on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True, editable=False)
     paid = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.obj.id}::{self.date}\t{self.paid}"
+        return f"INVOICE: {self.obj.id}::{self.date}\t PAID: {self.paid}\t ADDR: {self.address} FIN: {self.completed}"
 
     def getInvoice(self):
         self.invoice = f"{self.obj.id}::{self.date}"
         return self.invoice
 
 
-# class Address(models.Model):
-#     street = models.CharField(max_length=75)
-#     city = models.CharField(max_length=75)
-#     state = models.CharField(max_length=30)
-#     code = models.CharField(max_length=5)
-# use model data on price to fill out the form instead of hard coding into the view
+class Address(models.Model):
+    street = models.CharField(max_length=75)
+    city = models.CharField(max_length=75)
+    state = models.CharField(max_length=30)
+    code = models.CharField(max_length=5)
+
+    def __str__(self):
+        return f"{self.street}, {self.city}, {self.state}, {self.code}"

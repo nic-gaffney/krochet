@@ -14,16 +14,18 @@
         ${{product.price}}
       </p>
       
-      
-      {% comment %} <article class="fr pa4 black-80">
-        {% csrf_token %}
-        <form action="" method="post" accept-charset="utf-8">
+      {% if addrF %}
+       <article class="fr pa4 black-80">
+        
+        <form action="" method="POST" accept-charset="utf-8">
+          {% csrf_token %}
           {{ addr }}
           <div class="mt3"><input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" type="submit" value="Confirm Address"></div>
         </form>
-      </article> {% endcomment %}
-      
+      </article> 
+      {% else %}
       {{ form.render }}
+      {% endif %}
     </div>
   </div>
   

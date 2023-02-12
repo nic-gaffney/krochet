@@ -2,8 +2,9 @@ from django.views.generic import TemplateView
 from django.shortcuts import render
 from django.conf import settings
 from django.urls import reverse
-from .models import Crochet, Order
-from .forms import CustomPayPalPaymentsForm
+from django.template import RequestContext
+from .models import Crochet, Order, Address
+from .forms import CustomPayPalPaymentsForm, AddressForm
 import random
 
 
@@ -17,7 +18,7 @@ def index(request):
                   )
 
 
-def shop(request, product_id=0):
+def shop(request, product_id=0, addr=None):
     products = Crochet.objects.all()
 
     try:
@@ -25,14 +26,6 @@ def shop(request, product_id=0):
         order = Order()
         order.obj = obj
         order.getInvoice()
-        order.save()
-        # addr = AddressForm()
-
-        # if addr.is_valid():
-        #     city = form.cleaned_data['city']
-        #     state = form.cleaned_data['state']
-        #     street = form.cleaned_data['street']
-        #     code = form.cleaned_data['code']
 
         paypal_dict = {
             "business": settings.PAYPAL_RECEIVER_EMAIL,
@@ -43,13 +36,26 @@ def shop(request, product_id=0):
             "return": request.build_absolute_uri(reverse('index')),
             "cancel_return": request.build_absolute_uri(reverse('shop')),
         }
-        print(f"order.date = {order.date}")
-        print("invoice = {0}".format(paypal_dict['invoice']))
+        # print(f"order.date = {order.date}")
+        # print("invoice = {0}".format(paypal_dict['invoice']))
 
         # Create the instance.
         form = CustomPayPalPaymentsForm(initial=paypal_dict)
+
         context = {"form": form, 'product': obj}
-        # makeOrder(addr, obj)
+        context['addr'] = AddressForm()
+        context['addrF'] = True
+        if request.method == 'POST':
+            addrForm = AddressForm(request.POST)
+            if addrForm.is_valid():
+                addr = addrForm.save()
+                addr.save()
+                order.address = addr
+                order.save()
+
+            context['addrF'] = False
+            return render(request, 'shop/product.html', context)
+
         return render(request, 'shop/product.html', context)
 
     except Crochet.DoesNotExist:
