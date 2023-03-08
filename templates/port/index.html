@@ -3,19 +3,15 @@
 
 {% block title %}
 <h1 class="mt2 mb0 baskerville i fw1 f1" style="font-family: 'Princess Sofia', cursive;">{{ site.title }}</h1>
-<h2 class="mt2 mb0 f6 fw4 ttu tracked" style="font-family: 'Monstserrat', sans-serif;">About</h2>
+<h2 class="mt2 mb0 f6 fw4 ttu tracked" style="font-family: 'Monstserrat', sans-serif;">Portfolio</h2>
 {% endblock title %}
 
 {% block content %}
 <div class="flex flex-wrap justify-content justify-center">
     <div class="flex flex-wrap justify-content justify-center pa2">
         <p class="f3 text-center pa3 justify-left w-50" style="font-family: Monstserrat, sans-serif;">
-            {{ site.about }}            
+            {{ site.port }}            
         </p>
-        <div class="pa3 justify-right w-25">
-            <img src={{ site.portrait.url }} alt="Portrait" class="bl bw3">
-        </div>
-
     </div>
 </div>
 {% endblock content %}

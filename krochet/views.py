@@ -62,6 +62,11 @@ def shop(request, product_id=0, addr=None):
         })
 
 
-def contact(request):
+def about(request):
     site = SiteSettings.objects.get(pk=1)
-    return render(request, 'contact/index.html', {'site': site})
+    return render(request, 'about/index.html', {'site': site})
+
+
+def port(request):
+    site = SiteSettings.objects.get(pk=1)
+    return render(request, 'port/index.html', {'site': site})

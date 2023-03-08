@@ -50,3 +50,4 @@ class SiteSettings(models.Model):
         "Featured Product"), on_delete=models.CASCADE)
     portrait = models.ImageField(verbose_name=(
         "Portrait"), upload_to=f'static/images/portrait/', height_field=None, width_field=None, max_length=None, default="/static/images/default/wool.png")
+    port = models.TextField(verbose_name=("Portfolio"), default="Portfolio")
