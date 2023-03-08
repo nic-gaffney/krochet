@@ -5,7 +5,7 @@ from django.db import models
 class Crochet(models.Model):
     name = models.CharField(max_length=70)
     picture = models.ImageField(
-        upload_to=f'static/images/', height_field=None, width_field=None, max_length=None)
+        upload_to=f'static/images/products/', height_field=None, width_field=None, max_length=None, default='/static/images/default/wool.png')
     price = models.DecimalField(max_digits=6, decimal_places=2)
     info = models.TextField()
 
@@ -38,3 +38,15 @@ class Address(models.Model):
 
     def __str__(self):
         return f"{self.street}, {self.city}, {self.state}, {self.code}"
+
+
+class SiteSettings(models.Model):
+    title = models.CharField(verbose_name=(
+        "Title"), max_length=20, default="Title")
+    subTitle = models.CharField(verbose_name=(
+        "Sub Title"), max_length=50, default="Sub title")
+    about = models.TextField(verbose_name=("About me"), default="About Me")
+    featured = models.ForeignKey("krochet.Crochet", verbose_name=(
+        "Featured Product"), on_delete=models.CASCADE)
+    portrait = models.ImageField(verbose_name=(
+        "Portrait"), upload_to=f'static/images/portrait/', height_field=None, width_field=None, max_length=None, default="/static/images/default/wool.png")

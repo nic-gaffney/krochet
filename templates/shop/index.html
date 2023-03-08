@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
+
+{% block title %}
+<h1 class="mt2 mb0 baskerville i fw1 f1" style="font-family: 'Princess Sofia', cursive;">{{ site.title }}</h1>
+<h2 class="mt2 mb0 f6 fw4 ttu tracked" style="font-family: 'Monstserrat', sans-serif;">Shop</h2>
+{% endblock title %}
+
+{% block content %}
 <div class="flex flex-wrap justify-content justify-center-ns">
     {% for p in products %}
     <a href="{{ p.id }}"  class="no-underline hover grow-large br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 ma3">

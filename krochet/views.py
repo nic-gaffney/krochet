@@ -3,23 +3,20 @@ from django.shortcuts import render
 from django.conf import settings
 from django.urls import reverse
 from django.template import RequestContext
-from .models import Crochet, Order, Address
+from .models import Crochet, Order, Address, SiteSettings
 from .forms import CustomPayPalPaymentsForm, AddressForm
 import random
 
 
 def index(request):
-    products = Crochet.objects.all()
+    site = SiteSettings.objects.get(pk=1)
 
-    return render(request, 'index.html',
-                  {
-                      'plush': products[random.randint(0, len(products)-1)]
-                  }
-                  )
+    return render(request, 'index.html', {'site': site})
 
 
 def shop(request, product_id=0, addr=None):
     products = Crochet.objects.all()
+    site = SiteSettings.objects.get(pk=1)
 
     try:
         obj = Crochet.objects.get(pk=product_id)
@@ -42,7 +39,7 @@ def shop(request, product_id=0, addr=None):
         # Create the instance.
         form = CustomPayPalPaymentsForm(initial=paypal_dict)
 
-        context = {"form": form, 'product': obj}
+        context = {"form": form, 'product': obj, 'site': site}
         context['addr'] = AddressForm()
         context['addrF'] = True
         if request.method == 'POST':
@@ -60,5 +57,11 @@ def shop(request, product_id=0, addr=None):
 
     except Crochet.DoesNotExist:
         return render(request, 'shop/index.html', {
-            'products': products
+            'products': products,
+            'site': site
         })
+
+
+def contact(request):
+    site = SiteSettings.objects.get(pk=1)
+    return render(request, 'contact/index.html', {'site': site})

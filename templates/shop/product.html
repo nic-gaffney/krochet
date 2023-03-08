@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}
+<h1 class="mt2 mb0 baskerville i fw1 f1" style="font-family: 'Princess Sofia', cursive;">{{ site.title }}</h1>
+<h2 class="mt2 mb0 f6 fw4 ttu tracked" style="font-family: 'Monstserrat', sans-serif;">{{ product.name }}</h2>
+{% endblock title %}
+
 {% block content %}
 
 <div class="dt mw6 center pt0 pb5 pv5-m pv6-ns">
@@ -16,7 +22,6 @@
       
       {% if addrF %}
        <article class="fr pa4 black-80">
-        
         <form action="" method="POST" accept-charset="utf-8">
           {% csrf_token %}
           {{ addr }}

@@ -7,4 +7,5 @@ urlpatterns = [
     path('shop/', views.shop, name='shop'),
     path('shop/<int:product_id>', views.shop, name='product'),
     path('paypal/', include("paypal.standard.ipn.urls")),
+    path('contact/', views.contact, name='contact'),
 ]

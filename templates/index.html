@@ -1,25 +1,24 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
-<div class="flex flex-wrap justify-content justify-center-ns">
-  <div class="w-15 outline"></div>
-  <div class="pa3 mr2 w-25 outline">
-    <h3 class="measure-narrow-l bb center">Random Product: {{ plush.name }}</h3>
-    <p class="center measure-narrow-ns">
-      {{ plush.info }}
+
+{% block title %}
+<h1 class="mt2 mb0 baskerville i fw1 f1" style="font-family: 'Princess Sofia', cursive;">{{ site.title }}</h1>
+<h2 class="mt2 mb0 f6 fw4 ttu tracked" style="font-family: 'Monstserrat', sans-serif;">Home</h2>
+{% endblock title %}
+
+{% block content %}
+<div class="flex flex-wrap justify-content justify-center">
+  <div class="pa2 justify-left ">
+    <p style="font-family: 'Monstserrat', sans-serif;" class="measure-narrow bb justify-left b f4 tracked">Featured Product: <a href="shop/{{ site.featured.id }}" class="measure-narrow center b f4 link black bg-animate hover-bg-light-blue" style="font-family: 'Princess Sofia', cursive;">{{ site.featured.name }}</a></p>
+    <p class="justify-left measure-narrow" style="font-family: 'Monstserrat', sans-serif;">
+      {{ site.featured.info|truncatechars:400 }}
     </p>
   </div>
 
-  <div class="w-10 outline">
+  <div class="pa2 justify-right">
+    <img src="{{ site.featured.picture.url }}" class="br2 bw4 justify-right mw5"
+      alt="{{ site.featured.name }}.">
   </div>
-
-  <div class="right pa3 ml2 w-25 outline">
-    <img src="{{ plush.picture.url }}" class="mw4 br2 b--near-black bl bw4"
-      alt="{{ plush.name }}.">
-  </div>
-  <div class="w-15 outline"></div>
-
-
 </div>
 
 {% endblock content %}
